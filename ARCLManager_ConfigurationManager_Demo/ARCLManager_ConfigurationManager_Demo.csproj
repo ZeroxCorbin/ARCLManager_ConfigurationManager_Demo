@@ -97,5 +97,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ARCLManager\ARCLManager\ARCLManager.csproj">
+      <Project>{2b83d547-4e25-464b-b934-549b0b3a1cc6}</Project>
+      <Name>ARCLManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SocketManager\SocketManager.csproj">
+      <Project>{11944ee6-d840-40a9-a70e-8c2542a8f739}</Project>
+      <Name>SocketManager</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
