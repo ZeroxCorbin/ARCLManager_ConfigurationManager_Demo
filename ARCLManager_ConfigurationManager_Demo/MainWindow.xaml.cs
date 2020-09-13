@@ -1,9 +1,11 @@
 ﻿using ARCL;
+using ARCLTypes;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -42,7 +44,9 @@ namespace ARCLManager_ConfigurationManager_Demo
         {
 
             if (Connection == null)
-                Connection = new ARCLConnection(txtConnectionString.Text);
+                Connection = new ARCLConnection();
+
+            Connection.ConnectionString = txtConnectionString.Text;
 
             if (!Connection.IsConnected)
             {
@@ -55,12 +59,10 @@ namespace ARCLManager_ConfigurationManager_Demo
                     btnSend.IsEnabled = true;
                     return;
                 }
-                Connection = null;
             }
             else
             {
                 Connection.Close();
-                Connection = null;
             }
             btnConnect.Background = Brushes.Red;
             btnSend.IsEnabled = false;
@@ -86,7 +88,7 @@ namespace ARCLManager_ConfigurationManager_Demo
             Stopwatch sw = new Stopwatch();
             sw.Restart();
 
-            while (!Config.IsSynced & sw.ElapsedMilliseconds < 8000) { Thread.Sleep(1); }
+            while (!Config.IsSynced & sw.ElapsedMilliseconds < 60000) { Thread.Sleep(1); }
             
             if (Config.IsSynced)
             {
@@ -96,11 +98,13 @@ namespace ARCLManager_ConfigurationManager_Demo
             else btnGetConfig.Background = Brushes.Red;
 
             Config.Stop();
+
+            UpdateSectionList();
         }
 
         private void btnSaveConfig_Click(object sender, RoutedEventArgs e)
         {
-            if (Config.Sections.ContainsKey(txtConfigSection.Text))
+            if (Config.Sections.ContainsKey(lstLoadedSections.SelectedItem.ToString()))
             {
                 SaveFileDialog sf = new SaveFileDialog
                 {
@@ -109,7 +113,7 @@ namespace ARCLManager_ConfigurationManager_Demo
 
                 if ((bool)sf.ShowDialog())
                 {
-                    File.WriteAllText(sf.FileName, Config.SectionAsText(txtConfigSection.Text));
+                    File.WriteAllText(sf.FileName, Config.SectionAsText(lstLoadedSections.SelectedItem.ToString()));
                 }
             }
 
@@ -130,12 +134,23 @@ namespace ARCLManager_ConfigurationManager_Demo
             {
                 Config.TextAsSection(File.ReadAllText(of.FileName));
             }
+            UpdateSectionList();
         }
 
         private void btnWriteConfig_Click(object sender, RoutedEventArgs e)
         {
             Config.Start();
-            Config.WriteConfigSection(txtConfigSection.Text);
+            Config.WriteConfigSection(lstLoadedSections.SelectedItem.ToString());
+            Config.Stop();
+        }
+
+        private void UpdateSectionList()
+        {
+            lstLoadedSections.Items.Clear();
+            foreach (var key in Config.Sections)
+            {
+                lstLoadedSections.Items.Add(key.Key);
+            }
         }
     }
 }

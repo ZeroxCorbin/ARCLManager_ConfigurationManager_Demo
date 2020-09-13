@@ -9,22 +9,22 @@
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="txtConnectionString" Text="192.168.0.20:7171:adept" Width="300" VerticalContentAlignment="Center"/>
+                <TextBox x:Name="txtConnectionString" Text="172.16.69.51:7171:adept" Width="300" VerticalContentAlignment="Center"/>
                 <Button x:Name="btnConnect" Content="Connect" Click="BtnConnect_Click" Height="28" Width="96"/>
                 <TextBox x:Name="txtSendMessage" VerticalContentAlignment="Center" Width="200"/>
                 <Button x:Name="btnSend" Content="Send" Click="BtnSend_Click" Height="28" Width="96"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBox x:Name="txtConfigSection" Text="External Digital Outputs" Height="28" Width="300" VerticalContentAlignment="Center"/>
-              </StackPanel>
-            <StackPanel Orientation="Horizontal">               
-           <Button x:Name="btnGetConfig" Content="Read Config Section" Height="28" Width="128" Click="btnGetConfig_Click"/>
-                <Button x:Name="btnSaveConfig" Content="Save Config Section" Height="28" Width="128" Click="btnSaveConfig_Click" />
-                   <Button x:Name="btnLoadConfig" Content="Load Config Section" Height="28" Width="128" Click="btnLoadConfig_Click" />
-                <Button x:Name="btnWriteConfig" Content="Write Config Section" Height="28" Width="128" Click="btnWriteConfig_Click"/>
+                <Button x:Name="btnGetConfig" Content="Read Config Section" Height="28" Width="128" Click="btnGetConfig_Click"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                
+                <Button x:Name="btnLoadConfig" Content="Load Config Section" Height="28" Width="128" Click="btnLoadConfig_Click" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <ComboBox x:Name="lstLoadedSections" Height="28" Width="128"/>
+                <Button x:Name="btnSaveConfig" Content="Save Config Section" Height="28" Width="128" Click="btnSaveConfig_Click" />
+                <Button x:Name="btnWriteConfig" Content="Write Config Section" Height="28" Width="128" Click="btnWriteConfig_Click"/>
             </StackPanel>
             <TextBox x:Name="txtData" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" MaxHeight="360"/>
         </StackPanel>
