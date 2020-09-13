@@ -1,6 +1,9 @@
 ﻿using ARCL;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -33,12 +36,12 @@ namespace ARCLManager_ConfigurationManager_Demo
             btnConnect.Background = Brushes.Red;
             btnSend.IsEnabled = false;
         }
- 
+
 
         private void BtnConnect_Click(object sender, RoutedEventArgs e)
         {
-            
-            if(Connection == null)
+
+            if (Connection == null)
                 Connection = new ARCLConnection(txtConnectionString.Text);
 
             if (!Connection.IsConnected)
@@ -72,13 +75,67 @@ namespace ARCLManager_ConfigurationManager_Demo
 
         private void btnGetConfig_Click(object sender, RoutedEventArgs e)
         {
-            Config = new ConfigManager(Connection);
+            btnGetConfig.Background = Brushes.Yellow;
+
+            if(Config == null)
+                Config = new ConfigManager(Connection);
 
             Config.Start();
-            Config.GetConfigSection($"\"{txtConfigSection.Text}\"");
-            while (!Config.IsSynced) { Thread.Sleep(1); }
+            Config.ReadConfigSection($"{txtConfigSection.Text}");
 
-            btnGetConfig.Background = Brushes.Green;
+            Stopwatch sw = new Stopwatch();
+            sw.Restart();
+
+            while (!Config.IsSynced & sw.ElapsedMilliseconds < 8000) { Thread.Sleep(1); }
+            
+            if (Config.IsSynced)
+            {
+                Console.Out.Write(Config.SectionAsText(txtConfigSection.Text));
+                btnGetConfig.Background = Brushes.Green;
+            }
+            else btnGetConfig.Background = Brushes.Red;
+
+            Config.Stop();
+        }
+
+        private void btnSaveConfig_Click(object sender, RoutedEventArgs e)
+        {
+            if (Config.Sections.ContainsKey(txtConfigSection.Text))
+            {
+                SaveFileDialog sf = new SaveFileDialog
+                {
+                    DefaultExt = "*.txt|.txt"
+                };
+
+                if ((bool)sf.ShowDialog())
+                {
+                    File.WriteAllText(sf.FileName, Config.SectionAsText(txtConfigSection.Text));
+                }
+            }
+
+        }
+
+        private void btnLoadConfig_Click(object sender, RoutedEventArgs e)
+        {
+            if (Config == null)
+                Config = new ConfigManager(Connection);
+
+            OpenFileDialog of = new OpenFileDialog
+            {
+                CheckFileExists = true,
+                DefaultExt = "*.txt|.txt"
+            };
+
+            if ((bool)of.ShowDialog())
+            {
+                Config.TextAsSection(File.ReadAllText(of.FileName));
+            }
+        }
+
+        private void btnWriteConfig_Click(object sender, RoutedEventArgs e)
+        {
+            Config.Start();
+            Config.WriteConfigSection(txtConfigSection.Text);
         }
     }
 }
