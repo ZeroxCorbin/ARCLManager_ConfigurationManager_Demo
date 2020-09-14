@@ -5,28 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ARCLManager_ConfigurationManager_Demo"
         mc:Ignorable="d"
-        Title="MainWindow" SizeToContent="WidthAndHeight">
+        Title="MainWindow" SizeToContent="WidthAndHeight" LocationChanged="Window_LocationChanged" Closing="Window_Closing">
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="txtConnectionString" Text="172.16.69.51:7171:adept" Width="300" VerticalContentAlignment="Center"/>
-                <Button x:Name="btnConnect" Content="Connect" Click="BtnConnect_Click" Height="28" Width="96"/>
-                <TextBox x:Name="txtSendMessage" VerticalContentAlignment="Center" Width="200"/>
-                <Button x:Name="btnSend" Content="Send" Click="BtnSend_Click" Height="28" Width="96"/>
+                <TextBox x:Name="TxtConnectionString" Text="192.168.0.20:7171:adept" Width="300" VerticalContentAlignment="Center"/>
+                <Button x:Name="BtnConnect" Content="Connect" Click="BtnConnect_Click" Height="28" Width="96"/>
+                <TextBox x:Name="TxtSendMessage" VerticalContentAlignment="Center" Width="200"/>
+                <Button x:Name="BtnSend" Content="Send" Click="BtnSend_Click" Height="28" Width="96"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="txtConfigSection" Text="External Digital Outputs" Height="28" Width="300" VerticalContentAlignment="Center"/>
-                <Button x:Name="btnGetConfig" Content="Read Config Section" Height="28" Width="128" Click="btnGetConfig_Click"/>
+                <Button x:Name="BtnReloadSections" Content="Reload Sections" Height="28" Width="128" Click="BtnReloadSections_Click"/>
+                <ComboBox x:Name="CmbAvailableSections" Height="28" Width="300" VerticalContentAlignment="Center" Margin="0" SelectionChanged="CmbAvailableSections_SelectionChanged" />
+                <Button x:Name="BtnReadSectionValues" Content="Read Section" Height="28" Width="128" Click="BtnReadSectionValues_Click"/>
+                <Button x:Name="BtnReadAllSectionValues" Content="Read All Section" Height="28" Width="128" Click="BtnReadAllSectionValues_Click" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal"/>
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="btnLoadConfig" Content="Load Config Section" Height="28" Width="128" Click="btnLoadConfig_Click" />
+                <Button x:Name="BtnLoadSection" Content="Load Sections File" Height="28" Width="128" Click="BtnLoadSection_Click" />
+                <ComboBox x:Name="CmbLoadedSections" Height="28" Width="300" SelectionChanged="CmbLoadedSections_SelectionChanged"/>
+                <Button x:Name="BtnSaveSection" Content="Save Selected Section" Height="28" Width="128" Click="BtnSaveSection_Click" />
+                <Button x:Name="BtnSaveAllSections" Content="Save All Sections" Height="28" Width="128" Click="BtnSaveAllSections_Click" />
+                <Button x:Name="BtnWriteSection" Content="Write Section" Height="28" Width="128" Click="BtnWriteSection_Click"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <ComboBox x:Name="lstLoadedSections" Height="28" Width="128"/>
-                <Button x:Name="btnSaveConfig" Content="Save Config Section" Height="28" Width="128" Click="btnSaveConfig_Click" />
-                <Button x:Name="btnWriteConfig" Content="Write Config Section" Height="28" Width="128" Click="btnWriteConfig_Click"/>
-            </StackPanel>
-            <TextBox x:Name="txtData" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" MaxHeight="360"/>
+            <DataGrid x:Name="DgvSectionValues" MaxHeight="350" AutoGenerateColumns="False" CanUserSortColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Path=Name}"  Header="Name" MinWidth="100" CanUserResize="False" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Path=Value}" Header="Value" MinWidth="100" CanUserResize="False"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
     </Grid>
 </Window>
