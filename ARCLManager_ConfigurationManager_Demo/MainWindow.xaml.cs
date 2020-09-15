@@ -40,9 +40,11 @@ namespace ARCLManager_ConfigurationManager_Demo
             BtnConnect.Background = Brushes.Red;
             BtnSend.IsEnabled = false;
             BtnReadSectionValues.IsEnabled = false;
+            BtnReadAllSectionValues.IsEnabled = false;
             BtnReloadSections.IsEnabled = false;
 
             BtnSaveSection.IsEnabled = false;
+            BtnSaveAllSections.IsEnabled = false;
             BtnWriteSection.IsEnabled = false;
 
 
@@ -89,7 +91,7 @@ namespace ARCLManager_ConfigurationManager_Demo
         }
         private void BtnReadAllSectionValues_Click(object sender, RoutedEventArgs e)
         {
-            BtnReadSectionValues.Background = Brushes.Yellow;
+            BtnReadAllSectionValues.Background = Brushes.Yellow;
 
             ConfigManager.Start(Connection);
 
@@ -100,16 +102,16 @@ namespace ARCLManager_ConfigurationManager_Demo
                 Stopwatch sw = new Stopwatch();
                 sw.Restart();
 
-                while (!ConfigManager.IsSynced & sw.ElapsedMilliseconds < 60000) {  }
+                while (!ConfigManager.IsSynced && sw.ElapsedMilliseconds < 60000) {  }
 
                 if (!ConfigManager.IsSynced)
                     break;
             }
 
             if (ConfigManager.IsSynced)
-                BtnReadSectionValues.Background = Brushes.Green;
+                BtnReadAllSectionValues.Background = Brushes.Green;
             else
-                BtnReadSectionValues.Background = Brushes.Red;
+                BtnReadAllSectionValues.Background = Brushes.Red;
 
             ConfigManager.Stop();
 
@@ -166,6 +168,8 @@ namespace ARCLManager_ConfigurationManager_Demo
 
         private void BtnSaveSection_Click(object sender, RoutedEventArgs e)
         {
+            if (CmbLoadedSections.SelectedIndex == -1) return;
+
             if (ConfigManager.Sections.ContainsKey(CmbLoadedSections.SelectedItem.ToString()))
             {
                 SaveFileDialog sf = new SaveFileDialog
@@ -182,9 +186,9 @@ namespace ARCLManager_ConfigurationManager_Demo
 
         private void BtnSaveAllSections_Click(object sender, RoutedEventArgs e)
         {
-            if (ConfigManager.Sections.ContainsKey(CmbLoadedSections.SelectedItem.ToString()))
-            {
-                SaveFileDialog sf = new SaveFileDialog
+            if (CmbLoadedSections.Items.Count == 0) return;
+
+            SaveFileDialog sf = new SaveFileDialog
                 {
                     DefaultExt = "txt",
                     Filter = "Text file (*.txt)|*.txt"
@@ -196,11 +200,13 @@ namespace ARCLManager_ConfigurationManager_Demo
                         foreach (var cs in ConfigManager.Sections)
                             sw.WriteLine(ConfigManager.SectionValuesToText(cs.Key));
                 }
-            }
+
         }
 
         private void BtnWriteSection_Click(object sender, RoutedEventArgs e)
         {
+            if (CmbLoadedSections.SelectedIndex == -1) return;
+
             ConfigManager.Start(Connection);
             ConfigManager.WriteConfigSection(CmbLoadedSections.SelectedItem.ToString());
             ConfigManager.Stop();
@@ -214,6 +220,11 @@ namespace ARCLManager_ConfigurationManager_Demo
                     if (!CmbLoadedSections.Items.Contains(key.Key))
                         CmbLoadedSections.Items.Add(key.Key);
                 }
+
+            if (CmbLoadedSections.Items.Count > 0)
+                BtnSaveAllSections.IsEnabled = true;
+            else
+                BtnSaveAllSections.IsEnabled = false;
         }
         private void UpdateCmbAvailableSections()
         {
@@ -221,10 +232,14 @@ namespace ARCLManager_ConfigurationManager_Demo
             foreach (var key in ConfigManager.Sections)
                 if (!CmbAvailableSections.Items.Contains(key.Key))
                     CmbAvailableSections.Items.Add(key.Key);
+
+            if (CmbAvailableSections.Items.Count > 0)
+                BtnReadAllSectionValues.IsEnabled = true;
+            else
+                BtnReadAllSectionValues.IsEnabled = false;
         }
         private void CmbLoadedSections_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             if (CmbLoadedSections.SelectedIndex > -1)
             {
                 DgvSectionValues.ItemsSource = ConfigManager.Sections[CmbLoadedSections.SelectedValue.ToString()];

@@ -11,18 +11,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocketManager", "..\SocketM
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		ARCLManager_ConfigurationManager_Demo|Any CPU = ARCLManager_ConfigurationManager_Demo|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5BE890B-AA40-4782-84B8-73158BFE902F}.ARCLManager_ConfigurationManager_Demo|Any CPU.ActiveCfg = ARCLManager_ConfigurationManager_Demo|Any CPU
+		{F5BE890B-AA40-4782-84B8-73158BFE902F}.ARCLManager_ConfigurationManager_Demo|Any CPU.Build.0 = ARCLManager_ConfigurationManager_Demo|Any CPU
 		{F5BE890B-AA40-4782-84B8-73158BFE902F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5BE890B-AA40-4782-84B8-73158BFE902F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5BE890B-AA40-4782-84B8-73158BFE902F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5BE890B-AA40-4782-84B8-73158BFE902F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B83D547-4E25-464B-B934-549B0B3A1CC6}.ARCLManager_ConfigurationManager_Demo|Any CPU.ActiveCfg = ARCLManager_ConfigurationManager_Demo|Any CPU
+		{2B83D547-4E25-464B-B934-549B0B3A1CC6}.ARCLManager_ConfigurationManager_Demo|Any CPU.Build.0 = ARCLManager_ConfigurationManager_Demo|Any CPU
 		{2B83D547-4E25-464B-B934-549B0B3A1CC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B83D547-4E25-464B-B934-549B0B3A1CC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B83D547-4E25-464B-B934-549B0B3A1CC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B83D547-4E25-464B-B934-549B0B3A1CC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11944EE6-D840-40A9-A70E-8C2542A8F739}.ARCLManager_ConfigurationManager_Demo|Any CPU.ActiveCfg = ARCLManager_ConfigurationManager_Demo|Any CPU
+		{11944EE6-D840-40A9-A70E-8C2542A8F739}.ARCLManager_ConfigurationManager_Demo|Any CPU.Build.0 = ARCLManager_ConfigurationManager_Demo|Any CPU
 		{11944EE6-D840-40A9-A70E-8C2542A8F739}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{11944EE6-D840-40A9-A70E-8C2542A8F739}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11944EE6-D840-40A9-A70E-8C2542A8F739}.Release|Any CPU.ActiveCfg = Release|Any CPU
